@@ -12,13 +12,19 @@ function renderTodos(){
     //re-render todos
     
     
-    for (var i = 0; i < todos.length; i++) {
+  for (var i = 0; i < todos.length; i++) {
         // creaye li element
     var li = document.createElement('li')
         // add todo text to li
         li.innerText = todos[i]
         // append li to todoLis
-        todoList.appendChild(li)
+        li.setAttribute('data-index', i)
+        //add data-index attribute
+        var button = document.createElement('button')
+        button.innerText = "Complete"
+        li.appendChild(button)
+        //create button
+      todoList.appendChild(li)
     }
 }
 
@@ -32,14 +38,29 @@ var newTodo = todoInput.value
 
     //push text into todos
     todos.push(newTodo)
-    todosInput.value = null
+   
     //call renderTodos()
     renderTodos()
   }
 }
+
+function removeTodo(event){
+  var target = event.target
+  if (target.matches('button')){
+    //find index from LI
+    var index = parseInt(target.parentNode.getAttribute('data-index'))
+    //remove the todo from todos array
+    todos.splice(index, 1)
+    //re-render todos
+    renderTodos()
+
+  }
+}
+
+
 todoForm.addEventListener('submit', addTodo)
 
-
+todoList.addEventListener('click', removeTodo)
 
 
 renderTodos()
